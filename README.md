@@ -10,3 +10,6 @@ I am implementing the admin functionality of shopping application that we chose 
 
 ## Devanshi
 I am implementing the User functionality of the shopping application.
+
+## Mili Patel 013756223
+Implementing the Order funcitonality of the application.
