@@ -7,3 +7,6 @@
 
 ## Reeya Vani:
 I am implementing the admin functionality of shopping application that we chose for this project.
+
+## Devanshi
+I am implementing the User functionality of the shopping application.
