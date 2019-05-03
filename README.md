@@ -3,3 +3,7 @@
 ## Kesha Shah 013534352
 ## Mili Patel 013756223
 ## Devanshi Trivedi 013530530
+
+
+## Reeya Vani:
+I am implementing the admin functionality of shopping application that we chose for this project.
