@@ -13,3 +13,6 @@ I am implementing the User functionality of the shopping application.
 
 ## Mili Patel 013756223
 Implementing the Order funcitonality of the application.
+
+## Kesha
+I am implementing cart functioanlity of the shopping application.
