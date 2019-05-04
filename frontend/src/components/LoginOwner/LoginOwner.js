@@ -3,6 +3,8 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {USER_URL} from '../../constants/constants';
+
 var bcrypt = require('bcryptjs');
 
 class LoginOwner extends Component {
@@ -43,7 +45,7 @@ class LoginOwner extends Component {
                 type: this.state.type
             }
 
-            axios.post('http://192.168.43.34:3000/login', data)
+            axios.post(`${USER_URL}/login`, data)
                 .then(response => {
                     console.log("Status Code : ", response.status);
                     if (response.status === 200) {

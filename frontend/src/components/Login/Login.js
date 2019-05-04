@@ -3,7 +3,9 @@ import cookie from 'react-cookies';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import axios from 'axios';
+import {USER_URL} from '../../constants/constants';
 var bcrypt = require('bcryptjs');
+
 
 
 class Login extends Component {
@@ -49,9 +51,9 @@ class Login extends Component {
 
 
             //set the with credentials to true
-            axios.defaults.withCredentials = true;
+            // axios.defaults.withCredentials = true;
             //make a post request with the user data
-            axios.post('http://localhost:3001/login', data)
+            axios.post(`${USER_URL}/login`, data)
                 .then(response => {
                     console.log("Status Code : ", response.status);
                     if (response.status === 200) {
