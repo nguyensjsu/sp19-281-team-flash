@@ -66,3 +66,33 @@ all the 4 members. The API Gateway internally connects to Network Load
 Balancer which connects to Docker Instances.All microservices run
 independently of each other and developed using GoLang.All the MongoDB
 databases are sharded.
+
+## Areas of Contribution
+
+### Devanshi Trivedi
+- Web UI of User module
+- Go API of user module
+- MongoDB Schema Designing of User Module
+- MongoDB Sharding of User Database.
+- Handling Network Partition in System
+
+### Kesha Shah
+- Web UI of Cart module
+- Go API of Cart module
+- MongoDB Schema Designing of Cart Module
+- MongoDB Sharding of Cart Database.
+- Deploying Cart module on multiple instances to perform X-axis scaling.
+
+### Mili Patel
+- Web UI of Orders module
+- Go API of Orders module
+- MongoDB Schema Designing of Orders Module
+- MongoDB Sharding of Orders Database.
+- Working on X-axis of AKF Cube.
+
+### Reeya Vani
+- Web UI of Admin module
+- Go API of Admin module
+- MongoDB Schema Designing of Orders Module
+- MongoDB Sharding of Orders Database.
+- Deploying front end on Heroku.
