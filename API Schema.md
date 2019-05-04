@@ -116,3 +116,37 @@ Response:
 - 200 Success
 - 404 Not Found
 ```
+
+### GET /cart
+```
+This api is used for getting all the items from cart of the particular userid.
+GET /cart/{userid} HTTP/1.1
+Accept: application/json
+
+Response: {"items": [{itemname, quantity, itemdescription, image_url, sold}]}
+- 200 Success
+- 404 Not Found
+```
+
+## Orders
+
+### GET /orders
+```
+This api is used for getting all the items from orders of the particular userid.
+GET /oredrs/{userid} HTTP/1.1
+Accept: application/json
+
+Response: {"items": [{itemname, quantity, itemdescription, image_url, sold}]}
+- 200 Success
+- 404 Not Found
+```
+### PUT /orders
+```
+This api is used to place a new order
+PUT /orders/{userid} HTTP/1.1
+Accept: application/json
+
+Response:
+- 200 Success
+- 404 Not Found
+```
