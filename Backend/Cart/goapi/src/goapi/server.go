@@ -49,8 +49,8 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET") 
   
-	mx.HandleFunc("/addonecart/{itemid}", addonetoCartHandler(formatter)).Methods("PUT")  //cart
-	mx.HandleFunc("/deductonecart/{itemid}", deductonetoCartHandler(formatter)).Methods("PUT")  //cart 
+	//mx.HandleFunc("/addonecart/{itemid}", addonetoCartHandler(formatter)).Methods("PUT")  //cart
+	//mx.HandleFunc("/deductonecart/{itemid}", deductonetoCartHandler(formatter)).Methods("PUT")  //cart 
 
 	mx.HandleFunc("/getallcart/{userid}", cartAllDataHandler(formatter)).Methods("POST") //cart
 
@@ -83,78 +83,78 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 
 
 
-func addonetoCartHandler(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		params := mux.Vars(req)
-		 fmt.Printf("params[id]=%s \n", params["itemid"])
-    	var m gumballMachine
-    	_ = json.NewDecoder(req.Body).Decode(&m)		
-		session, err := mgo.Dial(mongodb_server)
-        if err != nil {
-                panic(err)
-        }
-        defer session.Close()
-        session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection_cart)
-		var result1 bson.M
-        err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result1)
-        if err != nil {
-                log.Fatal(err)
-		} 
-		fmt.Println("Qunatity of Result: ", result1["quantity"])
-		//fmt.Println("Updated Qunatity of Result: ", result1["quantity"]+1)
-		query := bson.M{"itemid" : params["itemid"]}
-		change := bson.M{"$set": bson.M{ "quantity" : result1["quantity"].(int)+1}}
-        err = c.Update(query, change)
-        if err != nil {
-                log.Fatal(err)
-        }
-       	var result bson.M
-        err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result)
-        if err != nil {
-                log.Fatal(err)
-        }        
-        fmt.Println("Cart Data:", result )
-		formatter.JSON(w, http.StatusOK, result)
-	}
-}
+// func addonetoCartHandler(formatter *render.Render) http.HandlerFunc {
+// 	return func(w http.ResponseWriter, req *http.Request) {
+// 		params := mux.Vars(req)
+// 		 fmt.Printf("params[id]=%s \n", params["itemid"])
+//     	var m gumballMachine
+//     	_ = json.NewDecoder(req.Body).Decode(&m)		
+// 		session, err := mgo.Dial(mongodb_server)
+//         if err != nil {
+//                 panic(err)
+//         }
+//         defer session.Close()
+//         session.SetMode(mgo.Monotonic, true)
+// 		c := session.DB(mongodb_database).C(mongodb_collection_cart)
+// 		var result1 bson.M
+//         err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result1)
+//         if err != nil {
+//                 log.Fatal(err)
+// 		} 
+// 		fmt.Println("Qunatity of Result: ", result1["quantity"])
+// 		//fmt.Println("Updated Qunatity of Result: ", result1["quantity"]+1)
+// 		query := bson.M{"itemid" : params["itemid"]}
+// 		change := bson.M{"$set": bson.M{ "quantity" : result1["quantity"].(int)+1}}
+//         err = c.Update(query, change)
+//         if err != nil {
+//                 log.Fatal(err)
+//         }
+//        	var result bson.M
+//         err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result)
+//         if err != nil {
+//                 log.Fatal(err)
+//         }        
+//         fmt.Println("Cart Data:", result )
+// 		formatter.JSON(w, http.StatusOK, result)
+// 	}
+// }
 
 //deductonetoCartHandler
-func deductonetoCartHandler(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		params := mux.Vars(req)
-		 fmt.Printf("params[id]=%s \n", params["itemid"])
-    	var m gumballMachine
-    	_ = json.NewDecoder(req.Body).Decode(&m)		
-		session, err := mgo.Dial(mongodb_server)
-        if err != nil {
-                panic(err)
-        }
-        defer session.Close()
-        session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection_cart)
-		var result1 bson.M
-        err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result1)
-        if err != nil {
-                log.Fatal(err)
-		} 
-		fmt.Println("Qunatity of Result: ", result1["quantity"])
-		fmt.Println("Updated Qunatity of Result: ", result1["quantity"].(int)-1)
-		query := bson.M{"itemid" : params["itemid"]}
-		change := bson.M{"$set": bson.M{ "quantity" : result1["quantity"].(int)-1}}
-        err = c.Update(query, change)
-        if err != nil {
-                log.Fatal(err)
-        }
-       	var result bson.M
-        err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result)
-        if err != nil {
-                log.Fatal(err)
-        }        
-        fmt.Println("Cart Data:", result )
-		formatter.JSON(w, http.StatusOK, result)
-	}
-}
+// func deductonetoCartHandler(formatter *render.Render) http.HandlerFunc {
+// 	return func(w http.ResponseWriter, req *http.Request) {
+// 		params := mux.Vars(req)
+// 		 fmt.Printf("params[id]=%s \n", params["itemid"])
+//     	var m gumballMachine
+//     	_ = json.NewDecoder(req.Body).Decode(&m)		
+// 		session, err := mgo.Dial(mongodb_server)
+//         if err != nil {
+//                 panic(err)
+//         }
+//         defer session.Close()
+//         session.SetMode(mgo.Monotonic, true)
+// 		c := session.DB(mongodb_database).C(mongodb_collection_cart)
+// 		var result1 bson.M
+//         err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result1)
+//         if err != nil {
+//                 log.Fatal(err)
+// 		} 
+// 		fmt.Println("Qunatity of Result: ", result1["quantity"])
+// 		fmt.Println("Updated Qunatity of Result: ", result1["quantity"].(int)-1)
+// 		query := bson.M{"itemid" : params["itemid"]}
+// 		change := bson.M{"$set": bson.M{ "quantity" : result1["quantity"].(int)-1}}
+//         err = c.Update(query, change)
+//         if err != nil {
+//                 log.Fatal(err)
+//         }
+//        	var result bson.M
+//         err = c.Find(bson.M{"itemid" : params["itemid"]}).One(&result)
+//         if err != nil {
+//                 log.Fatal(err)
+//         }        
+//         fmt.Println("Cart Data:", result )
+// 		formatter.JSON(w, http.StatusOK, result)
+// 	}
+// }
 
 func cartAllDataHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
@@ -229,10 +229,10 @@ func placeOrderHandler(formatter *render.Render) http.HandlerFunc {
 			fmt.Println(string(data))
 		}
 
-		err = c.Remove(bson.M{"userid": params["userid"]})   //take the user id from url
-        if err != nil {
-                log.Fatal(err)
-        }
+	// 	err = c.Remove(bson.M{"userid": params["userid"]})   //take the user id from url
+        // if err != nil {
+        //         log.Fatal(err)
+        // }
 		
 
 		formatter.JSON(w, http.StatusOK, result)

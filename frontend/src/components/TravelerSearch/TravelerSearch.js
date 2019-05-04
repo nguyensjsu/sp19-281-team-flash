@@ -122,7 +122,7 @@ class TravelerSearch extends Component {
                 userid:this.state.myData.userId,
                 quantity:"1"
             }
-            axios.post(`${CART_URL}/cart`, data)
+            axios.post(`${ADMIN_URL}/cart`, data)
             .then(response => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
