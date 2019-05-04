@@ -12,6 +12,7 @@ class HeaderTraveller extends Component {
         this.state = {
             myData: myData,
             authFlag: false,
+            loggedOut: false,
             imgView: "https://csvcus.homeaway.com/rsrcs/cdn-logos/2.10.3/bce/brand/misc/default-profile-pic.png"
 
         }
@@ -21,10 +22,10 @@ class HeaderTraveller extends Component {
     }
     // handle logout to destroy the cookie and clear local storage
     handleLogout = () => {
-        cookie.remove('cookie', { path: '/' })
+        // cookie.remove('cookie', { path: '/' })
         localStorage.clear();
         this.setState({
-            authFlag: true
+            loggedOut: true
         })
     }
     componentDidMount() {
@@ -49,9 +50,9 @@ class HeaderTraveller extends Component {
     render() {
         let redirectVar;
         require('./HeaderTraveller.css')
-        // if (this.state.myData.type == "O") {
-        //     redirectVar = <Redirect to="/OwnerDashboard" />
-        // }
+        if (this.state.loggedOut) {
+            redirectVar = <Redirect to="/" />
+        }
         // if (!cookie.load('cookie') || !this.state.myData) {
         //     localStorage.clear();
         //     redirectVar = <Redirect to="/" />
@@ -86,7 +87,7 @@ class HeaderTraveller extends Component {
                                             <a href="#" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  ><i className="far fa-envelope" style={{ 'margin-right': '7px', 'color': 'grey' }}></i>Inbox</a>
                                         </li>
                                         <li id="">
-                                            <a href="/MytripTraveller" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  ><i className="fa fa-suitcase" style={{ 'margin-right': '7px', 'color': 'grey' }}></i>My Trips</a>
+                                            <a href="/orderlisting" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  ><i className="fa fa-suitcase" style={{ 'margin-right': '7px', 'color': 'grey' }}></i>My Orders</a>
                                         </li>
                                         <li id="">
                                             <a href="/ProfileTraveller" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  ><i className="fa fa-user" style={{ 'margin-right': '7px', 'color': 'grey' }}></i>My profile</a>
@@ -167,14 +168,14 @@ class HeaderTraveller extends Component {
                                 <a href="#" id="secNav">Inbox</a>
                             </li>
                             <li >
-                                <a href="/MytripTraveller" id='secNav' >My trips </a>
+                                <a href="/orderlisting" id='secNav' >My Orders </a>
                             </li>
-                            <li >
+                            {/* <li >
                                 <a href="/ProfileTraveller" id='secNav' >Profile</a>
                             </li>
                             <li >
                                 <a href="/AccountTraveller" id='secNav' >Account</a>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>

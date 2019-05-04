@@ -66,7 +66,7 @@ class Navbar extends Component {
 
                             <ul className="nav navbar-nav navbar-right">
                                 <li >
-                                    <a href="#" id="noFocus" className="nav-headings" >Trip Boards</a>
+                                    <a href="#" id="noFocus" className="nav-headings" >Product Boards</a>
                                 </li>
 
 
@@ -151,7 +151,12 @@ class Navbar extends Component {
                                     <span className=""><input style={{ 'padding': '1.6%', 'margin-right': '10px', 'width': ' 17%', 'color': ' gray;' }} type="date" placeholder="Where do you wnat to go?" /></span>
                                     <span className=""><input style={{ 'padding': '1.6%', 'margin-right': '10px', 'width': ' 17%', 'color': ' gray;' }} type="date" placeholder="Where do you wnat to go?" /></span>
                                     <span className=""><input style={{ 'padding': '1.6%', 'margin-right': '10px', 'width': ' 14%', 'color': ' gray;' }} type="text" placeholder="Guests" /></span> */}
-                                    <span><button className="btn btn-primary btn-lg searchbox-submit js-searchSubmit searchButton" data-effect="ripple" type="button" tabindex="5" data-loading-animation="true">View Collections</button></span>
+                                    <Link to={{ pathname: '/TravelerSearch', state: { type: 'A' } }}>
+                                        {/* <span > Admin Login</span> */}
+                                        <span><button className="btn btn-primary btn-lg searchbox-submit js-searchSubmit searchButton" data-effect="ripple" type="button" tabindex="5" data-loading-animation="true">View Collections</button></span>
+
+                                    </Link>
+
                                 </form>
                             </div>
                         </div>

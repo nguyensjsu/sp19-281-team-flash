@@ -12,6 +12,8 @@ import logo2 from './2.jpg'
 import logo3 from './3.jpg'
 import { stat } from 'fs';
 import { Link } from 'react-router-dom';
+import { ORDER_URL } from '../../constants/constants';
+
 
 
 
@@ -23,7 +25,8 @@ class orderlisting extends Component {
         this.state = {
             myData: myData,
             properties: [],
-            Cimages: []
+            Cimages: [],
+            logout: false
         }
         this.handleLogout = this.handleLogout.bind(this)
 
@@ -31,55 +34,52 @@ class orderlisting extends Component {
 
     componentDidMount() {
 
-        // if (this.state.myData) {
-        // axios.defaults.withCredentials = true;
-        let temp = this.state.myData
-        let data={
+        if (this.state.myData && this.state.myData.userId) {
+            axios.get(`${ORDER_URL}/orders/` + this.state.myData.userId)
+                .then((response) => {
+                    console.log(response.data);
+                    if (!response.data.status) {
+                        let info = response.data
+                        let temp;
+                        // for (let i = 0; i < response.data.length; i++) {
+                        //     let tempProperty = response.data[i].Itempath;
+                        //     // for (let j = 0; j < tempProperty.length; j++) {
 
+                        //     //      axios.get('http://192.168.0.7:3000/download/' + tempProperty[j])
+                        //     //         .then((resp) => {
+                        //     //             // console.log(resp.data)
+                        //     //             // response.data[i].Itempath[j] = new Uint8Array(resp.data)
+                        //     //             // let temp = "'data:image/jpeg;base64," + resp.data
+                        //     //             response.data[i].Itempath[j] = resp.data;
+
+                        //     //         })
+
+                        //     //     // let temp = 'data:image/jpg;base64, ' + response.data.property[i].showImages[j]
+                        //     //     // response.data.property[i].showImages[j] = temp
+                        //     // }
+
+                        // }
+                        this.setState({
+                            properties: response.data,
+
+
+                        })
+
+                    }
+
+
+                });
         }
-        axios.get('http://192.168.43.87:3000/orders/2')
-            .then( (response) => {
-                console.log(response.data);
-                if (!response.data.status) {
-                    let info = response.data
-                    let temp;
-                    // for (let i = 0; i < response.data.length; i++) {
-                    //     let tempProperty = response.data[i].Itempath;
-                    //     // for (let j = 0; j < tempProperty.length; j++) {
 
-                    //     //      axios.get('http://192.168.0.7:3000/download/' + tempProperty[j])
-                    //     //         .then((resp) => {
-                    //     //             // console.log(resp.data)
-                    //     //             // response.data[i].Itempath[j] = new Uint8Array(resp.data)
-                    //     //             // let temp = "'data:image/jpeg;base64," + resp.data
-                    //     //             response.data[i].Itempath[j] = resp.data;
-
-                    //     //         })
-
-                    //     //     // let temp = 'data:image/jpg;base64, ' + response.data.property[i].showImages[j]
-                    //     //     // response.data.property[i].showImages[j] = temp
-                    //     // }
-                        
-                    // }
-                    this.setState({
-                        properties: response.data,
-
-
-                    })
-
-                }
-
-
-            });
         // }
 
     }
     // handle logout to destroy the cookie and clear local storage
     handleLogout = () => {
-        cookie.remove('cookie', { path: '/' })
+        // cookie.remove('cookie', { path: '/' })
         localStorage.clear();
         this.setState({
-            authFlag: true
+            logout: true
         })
     }
 
@@ -146,7 +146,9 @@ class orderlisting extends Component {
         //         redirectVar = <Redirect to="/TravelerHome" />
         //     }
         // }
-
+        if (this.state.logout) {
+            redirectVar = <Redirect to="/" />
+        }
         let propertyList;
 
         if (this.state.properties && this.state.properties.length > 0) {
@@ -236,7 +238,7 @@ class orderlisting extends Component {
                                             <a href="#" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Account settings</a>
                                         </li>
                                         <li id="">
-                                            <a href="/OwnerListing" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Product Details</a>
+                                            <a href="/TravelerSearch" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Product Details</a>
                                         </li>
                                         <li id="">
                                             <a href="#" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Product archive</a>
@@ -265,7 +267,7 @@ class orderlisting extends Component {
                     <div>
                         <div className="outerDiv11 mainHeadFont">Your orders!</div>
                         <div className="outerDiv">
-                            <table style={{ marginTop: "10px", marginLeft: "35%", width:"30%" }}>
+                            <table style={{ marginTop: "10px", marginLeft: "35%", width: "30%" }}>
 
                                 {propertyList}
                             </table>
