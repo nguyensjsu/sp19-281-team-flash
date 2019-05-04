@@ -75,3 +75,44 @@ Response: {"items": [{itemname, quantity, itemdescription, image_url, sold}]}
 - 200 Success
 - 404 Not Found
 ```
+
+
+## Cart
+
+### POST /cart
+```
+This api is used to add new item to cart. It will take itemid from
+front end and get the data from inventory table on the basis of itemid
+and insert the data in cart collection.
+
+POST /cart HTTP/1.1
+Accept: application/json
+
+Body : {
+    "itemid" :"1",
+    "quantity":"20"
+    "userid":"2"
+}
+```
+
+### PUT /cartadd
+```
+This api is used to increment the quantity of an item by 1
+PUT /cart/{itemid} HTTP/1.1
+Accept: application/json
+
+Response:
+- 200 Success
+- 404 Not Found
+
+```
+### PUT /cartdeduct
+```
+This api is used to decrement the quantity of an item by 1
+PUT /cart/{itemid} HTTP/1.1
+Accept: application/json
+
+Response:
+- 200 Success
+- 404 Not Found
+```
