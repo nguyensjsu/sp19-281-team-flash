@@ -12,6 +12,7 @@ import logo2 from './2.jpg'
 import logo3 from './3.jpg'
 import { stat } from 'fs';
 import { Link } from 'react-router-dom';
+import {ADMIN_URL} from '../../constants/constants';
 
 
 
@@ -34,7 +35,7 @@ class OwnerListing extends Component {
 
         // if (this.state.myData) {
         // axios.defaults.withCredentials = true;
-        axios.get('http://192.168.43.34:3000/inventory')
+        axios.get(`${ADMIN_URL}/inventory`)
             .then( (response) => {
                 console.log(response.data);
                 if (response.data && !response.data.status) {

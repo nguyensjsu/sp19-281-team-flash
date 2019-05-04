@@ -8,6 +8,8 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import { stat } from 'fs';
+import { ADMIN_URL } from '../../constants/constants';
+
 
 //create the Navbar Component
 class OwnerDashboard extends Component {
@@ -18,7 +20,8 @@ class OwnerDashboard extends Component {
             myData: myData,
             redirectFlag: false,
             errorListingFlag: false,
-            currentView: "photos"
+            currentView: "photos",
+            logout: false
         }
         this.setLocation = this.setLocation.bind(this)
         this.setDetails = this.setDetails.bind(this)
@@ -88,7 +91,7 @@ class OwnerDashboard extends Component {
             // formData.set("details", JSON.stringify(this.state.details))
 
             //make a post request with the user data
-            axios.post('http://192.168.99.1:3000/upload', formData)
+            axios.post(`${ADMIN_URL}/upload`, formData)
                 .then(response => {
                     console.log("Status Code : ", response.status);
                     if (response.status === 200 || response.status === 201) {
@@ -105,16 +108,16 @@ class OwnerDashboard extends Component {
                                 sold: "0",
                                 itempath: response.data
                             }
-                            axios.post('http://192.168.99.1:3000/admin', data)
+                            axios.post(`${ADMIN_URL}/admin`, data)
                                 .then(response => {
                                     console.log("Status Code : ", response.status);
                                     if (response.status === 200 || response.status === 201) {
                                         localStorage.removeItem('details')
                                         console.log(response.data)
                                         this.setState({
-                                            redirectFlag:true
+                                            redirectFlag: true
                                         })
-                                    }else{
+                                    } else {
                                         alert("Something went wrong!")
                                     }
                                 })
@@ -255,10 +258,10 @@ class OwnerDashboard extends Component {
 
     // handle logout to destroy the cookie and clear local storage
     handleLogout = () => {
-        cookie.remove('cookie', { path: '/' })
+        // cookie.remove('cookie', { path: '/' })
         localStorage.clear();
         this.setState({
-            authFlag: true
+            logout: true
         })
     }
 
@@ -319,6 +322,10 @@ class OwnerDashboard extends Component {
         }
         if (this.state.redirectFlag) {
             redirectVar = <Redirect to="/OwnerListing" />
+        }
+        if (this.state.logout) {
+            redirectVar = <Redirect to="/" />
+
         }
 
         return (
