@@ -23,4 +23,21 @@ var UserSchema = new Schema({
     type:{type:String}
 });  
 ```
+## Inventory Schema
+
+var InventorySchema = new Schema({  
+    itemid: { type: String, required: true
+    },  
+    itemname: { type: String, required: true  
+    },  
+    quantity: { type: String, required: true  
+    }, 
+    userid:{type:String, required: true  
+    },
+    itempath:{type:String},
+    sold:{type:String, required: true  
+    },
+    itemdesc: { type: String, required: true  
+    }
+});  
 
