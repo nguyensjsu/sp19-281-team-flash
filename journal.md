@@ -1,6 +1,6 @@
 # Team Flash Project
 
-### Team Modules
+### Team Members
 - Devanshi Trivedi
 - Kesha Shah
 - Mili Patel
