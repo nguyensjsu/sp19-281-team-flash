@@ -25,6 +25,7 @@ var UserSchema = new Schema({
 ```
 ## Inventory Schema
 
+```
 var InventorySchema = new Schema({  
     itemid: { type: String, required: true
     },  
@@ -41,3 +42,4 @@ var InventorySchema = new Schema({
     }
 });  
 
+```
