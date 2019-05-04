@@ -47,3 +47,22 @@ As users will be accessing this application from all over the world, time comple
 ### X-axis Scaling:
 - X-axis uses an approach of scaling an solution by running multiple identical copies of the application behind a load balancer.
 - It is implemented by cloning our API in multiple EC2 instances and attaching a load balancer to the instances.
+
+
+
+### Y-axis Scaling:
+- Y-axis allows segmentation of teams and ownership of code and data, organizational scalability is increased. It focuses on separation of dissimilar functionalities.
+- It is implemented by dividing all the services independently i.e. hosting user, admin, cart and orders as different services on different AWS account.
+
+### Z-axis Scaling:
+- Z-axis follows the approach of segmentation of similar things. It is splitting similar data in different chunks.
+- It is implemented by performing sharding of MongoDB database in all the services.
+
+## Overview of Application:
+
+We have deployed our Frontend i.e. User modules and Admin modules on
+Heroku.Frontend makes request to API Gateway built in AWS account of
+all the 4 members. The API Gateway internally connects to Network Load
+Balancer which connects to Docker Instances.All microservices run
+independently of each other and developed using GoLang.All the MongoDB
+databases are sharded.
