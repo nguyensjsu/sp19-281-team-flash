@@ -12,6 +12,8 @@ import logo2 from './2.jpg'
 import logo3 from './3.jpg'
 import { stat } from 'fs';
 import { Link } from 'react-router-dom';
+import {ADMIN_URL, CART_URL} from '../../constants/constants';
+
 
 
 
@@ -39,7 +41,7 @@ class cartlisting extends Component {
         // axios.defaults.withCredentials = true;
         let temp = this.state.myData
         // axios.post('http://192.168.0.14:3000/getallcart/'+this.state.myData.userid)
-        axios.post('http://192.168.0.14:3000/getallcart/2')
+        axios.post(`${CART_URL}/getallcart/`+this.state.myData.userId)
             .then( (response) => {
                 console.log(response.data);
                 if (response.data &&!response.data.status) {
@@ -47,7 +49,7 @@ class cartlisting extends Component {
                     let temp;
                     let sum =0;
                     for (let i = 0; i < response.data.length; i++) {
-                        response.data[i].Total=response.data[i].price * parseInt(response.data[i].quantity)
+                        response.data[i].Total=parseInt(response.data[i].price) * parseInt(response.data[i].quantity)
                         
                        sum+=response.data[i].Total
                     }
@@ -67,13 +69,13 @@ class cartlisting extends Component {
 
     
     placeOrder() {
-        let data ={
-            itemid:"5ccb1c6ed85b54cec0824ec7",
-            userid:this.state.myData.userId,
-            Quantity:1,
+        // let data ={
+        //     itemid:"5ccb1c6ed85b54cec0824ec7",
+        //     userid:this.state.myData.userId,
+        //     quantity:1,
             
-        }
-        axios.post('http://192.168.0.14:3000/orders/2', data)
+        // }
+        axios.post(`${CART_URL}/orders/`+this.state.myData.userId)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -92,9 +94,9 @@ class cartlisting extends Component {
                         // let test = JSON.parse(localStorage.getItem('myData'));
                         // console.log(test.firstname);
                         this.setState({
-                            authFlag: true,
-                            invalidFlag: false,
-                            myData: test,
+                            // authFlag: true,
+                            // invalidFlag: false,
+                            // myData: test,
                             placedOrder:true
                         })
                     } else {
@@ -218,7 +220,7 @@ class cartlisting extends Component {
             })
         } else {
             propertyList = <div style={{ color: "#200755", padding: "10px 10px 10px 0px" }}>
-                <h2>You have not listed products yet!</h2>
+                <h2>You have not products in your cart yet!</h2>
             </div>
         }
 
@@ -252,7 +254,7 @@ class cartlisting extends Component {
                                             <a href="#" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Account settings</a>
                                         </li>
                                         <li id="">
-                                            <a href="/OwnerListing" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Product Details</a>
+                                            <a href="/TravelerSearch" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Product Details</a>
                                         </li>
                                         <li id="">
                                             <a href="#" className='Dropdown__menu Dropdown__menu--open Dropdown__menu--right dropList'  >Product archive</a>

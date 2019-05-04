@@ -6,6 +6,8 @@ import cookie from 'react-cookies';
 import imgs from './homeimg.jpg'
 import { Redirect } from 'react-router';
 import axios from 'axios';
+import {ADMIN_URL, CART_URL} from '../../constants/constants';
+
 
 
 class TravelerSearch extends Component {
@@ -35,7 +37,8 @@ class TravelerSearch extends Component {
                 properties: [],
                 bookProp: {},
                 // search: JSON.parse(this.props.location.state.search),
-                authFlag:false
+                authFlag:false,
+                cartadded:false
             }
         // }
         // console.log(this.state.search)
@@ -47,10 +50,10 @@ class TravelerSearch extends Component {
     componentDidMount() {
        
             // axios.defaults.withCredentials = true;
-            axios.get('http://192.168.0.7:3000/inventory')
+            axios.get(`${ADMIN_URL}/inventory`)
                 .then((response) => {
                     console.log(response.data);
-                    if (!response.data.status) {
+                    if (response.data && !response.data.status) {
                         let info = response.data
                         let temp;
                         // for (let i = 0; i < response.data.length; i++) {
@@ -102,6 +105,7 @@ class TravelerSearch extends Component {
 
 
     setBookProperty(property) {
+        console.log(property)
         this.setState({
             bookProp: property
         })
@@ -110,56 +114,62 @@ class TravelerSearch extends Component {
     addCart(property) {
         console.log("HURRRAUUU")
         console.log(property)
-        let data ={
-            // itemid:property.Itemid,
-            itemid:"5ccb1c6ed85b54cec0824ec7",
-            
-            userid:this.state.myData.userId,
-            Quantity:1
-        }
-        axios.post('http://192.168.0.14:3000/cart', data)
-        .then(response => {
-            console.log("Status Code : ", response.status);
-            if (response.status === 200) {
-                console.log(response.data)
-                if (response.data) {
-                    if (!response.data.Status) {
-                        
-                        let data ={
-                            firstname: response.data.fname,
-                            lastname: response.data.lname,
-                            type: response.data.type,
-                            userId: response.data.user_id,
-                            email: response.data.email
-                        }
-                        localStorage.setItem('myData', JSON.stringify(data));
-                        let test = JSON.parse(localStorage.getItem('myData'));
-                        console.log(test.firstname);
-                        this.setState({
-                            authFlag: true,
-                            invalidFlag: false,
-                            myData: test
-                        })
-                    } else {
-                        this.setState({
-                            invalidFlag: true
-                        })
-                    }
-                }
-
-            } else {
-                this.setState({
-                    authFlag: false
-                })
+        if(this.state.myData){
+            let data ={
+                itemid:property.Itemid,
+                // itemid:"5ccb1c6ed85b54cec0824ec7",
+                
+                userid:this.state.myData.userId,
+                quantity:"1"
             }
-        });
+            axios.post(`${CART_URL}/cart`, data)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if (response.status === 200) {
+                    console.log(response.data)
+                    if (response.data) {
+                        if (!response.data.Status) {
+                            
+                            // let data ={
+                            //     firstname: response.data.fname,
+                            //     lastname: response.data.lname,
+                            //     type: response.data.type,
+                            //     userId: response.data.user_id,
+                            //     email: response.data.email
+                            // }
+                            // localStorage.setItem('myData', JSON.stringify(data));
+                            // let test = JSON.parse(localStorage.getItem('myData'));
+                            // console.log(test.firstname);
+                            this.setState({
+                                cartadded:true
+                            })
+                        } else {
+                            this.setState({
+                                invalidFlag: true
+                            })
+                        }
+                    }
+    
+                } else {
+                    this.setState({
+                        authFlag: false
+                    })
+                }
+            });
+        }else{
+            alert("Please Login first")
+        }
+        
     }
 
 
 
     CimagesPopUp() {
-        if (this.state && this.state.bookProp && this.state.bookProp.showImages) {
-            let details = this.state.bookProp.showImages.map((imgs, key) => {
+        console.log(this.state.bookProp)
+
+        if (this.state && this.state.bookProp && this.state.bookProp.Itempath) {
+            console.log(this.state.bookProp)
+            let details = this.state.bookProp.Itempath.map((imgs, key) => {
                 console.log(key)
                 if (key == 0) {
                     return (
@@ -271,12 +281,12 @@ class TravelerSearch extends Component {
             })
         } else {
             propertyList = <div style={{ color: "#200755", padding: "10px 10px 10px 0px" }}>
-                <h2>No property found for your search!</h2>
+                <h2>No products found for your search!</h2>
             </div>
         }
 
-        if(this.state.authFlag){
-            redirectVar = <Redirect to="/MytripTraveller" />
+        if(this.state.cartadded){
+            redirectVar = <Redirect to="/cartListing" />
             
         }
         return (
@@ -286,7 +296,7 @@ class TravelerSearch extends Component {
                 <HeaderTraveller />
                 <div>
                     <div>
-                        <div className="outerDiv11 mainHeadFont">Property Lists</div>
+                        <div className="outerDiv11 mainHeadFont">Product Lists</div>
                         <div className="outerDiv">
                             <table style={{ marginTop: "10px" }}>
                                 {propertyList}
@@ -311,26 +321,26 @@ class TravelerSearch extends Component {
                                 <table style={{ marginTop: "10px" }}>
                                     <tr>
                                         <td className="popTr">
-                                            <div style={{ fontSize: "11px", color: "#7a868e" }}>Check-in</div>
+                                            {/* <div style={{ fontSize: "11px", color: "#7a868e" }}>{property.itemname}</div> */}
                                             {/* <div style={{ fontSize: "13px", color: "#0067db" }}>{this.state.search.tripStart}</div> */}
                                         </td>
                                         <td className="popTr">
-                                            <div style={{ fontSize: "11px", color: "#7a868e" }}>Check-out</div>
+                                            {/* <div style={{ fontSize: "11px", color: "#7a868e" }}>Check-out</div> */}
                                             {/* <div style={{ fontSize: "13px", color: "#0067db" }}>{this.state.search.tripEnd}</div> */}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td className="popTr" colSpan="2">
-                                            <div style={{ fontSize: "11px", color: "#7a868e" }}>guest</div>
+                                            {/* <div style={{ fontSize: "11px", color: "#7a868e" }}>guest</div> */}
                                             {/* <div style={{ fontSize: "13px", color: "#0067db" }}>{this.state.search.guests}</div> */}
                                         </td>
                                     </tr>
                                 </table>
 
-                                <div style={{ marginTop: "10px", marginLeft: "0" }}>
+                                {/* <div style={{ marginTop: "10px", marginLeft: "0" }}>
                                     <span style={{ fontSize: "17px", float: "left", marginLeft: "10px" }} className="fontDesign">${this.state.bookProp.rent}.00 x {this.state.bookProp.days} nights</span>
                                     <span style={{ fontSize: "17px", float: "right", marginRight: "10px" }} className="fontDesign"> ${this.state.bookProp.totalCost}.00</span>
-                                </div>
+                                </div> */}
                                 {/* <div style={{ marginTop: "2px",marginLeft:"1.3%" }}>
                                     <span style={{ fontSize: "17px" }}>Days:</span>
                                     <span style={{ fontSize: "17px" }}> {this.state.bookProp.days}</span>
@@ -339,9 +349,10 @@ class TravelerSearch extends Component {
                                     <span style={{ fontSize: "17px" }}>Total: </span>
                                     <span style={{ fontSize: "17px" }}>${this.state.bookProp.totalCost}</span>
                                 </div> */}
-                                <div style={{ textAlign: "center", marginTop: "35px" }}>
+                                {/* <div style={{ textAlign: "center", marginTop: "35px" }}>
                                     <button type="button" onClick={this.blockProperty} class="btn btn-primary" style={{ borderRadius: "27px" }} data-dismiss="modal">Book Now</button>
-                                </div>
+                                </div> */}
+                                
                             </div>
                         </div>
                     </div>
