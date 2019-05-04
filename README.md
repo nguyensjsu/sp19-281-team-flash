@@ -1,18 +1,17 @@
-# Cmpe 281 Cloud Technologies - Team Flash
-## Reeya Vani 013748917
-## Kesha Shah 013534352
-## Mili Patel 013756223
-## Devanshi Trivedi 013530530
+# Team Flash Project
 
+### Team Modules
+- Devanshi Trivedi
+- Kesha Shah
+- Mili Patel
+- Reeya Vani
 
-## Reeya Vani:
-I am implementing the admin functionality of shopping application that we chose for this project.
+### Project Modules
+- User
+- Admin
+- Cart
+- Order
 
-## Devanshi
-I am implementing the User functionality of the shopping application.
+### Architecture Diagram
 
-## Mili Patel 013756223
-Implementing the Order funcitonality of the application.
-
-## Kesha
-I am implementing cart functioanlity of the shopping application.
+![Architecture Diagram](https://github.com/nguyensjsu/sp19-281-team-flash/blob/master/architecture_diagram.jpg)
