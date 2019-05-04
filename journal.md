@@ -28,3 +28,22 @@ User module will be used to login into Admin module of the application and the r
 3. API Gateway
 API Gateway is connected to internal network load balancer.
 
+4. Network Load Balancer
+Network Load Balancer is attached to 2 EC2 instance with docker images of our application running on it.
+
+5. Go APIs
+Go APIs specific functionalities are deployed on their specific docker instances. User, Admin, Cart and Orders are various functionalities deployed on 4 different docker instances. Replica of Docker instances are built.
+
+6. MongoDB Sharded Clusters
+Database is built on MongoDB and performed clustering and sharding on the database.
+
+7. S3 Bucket
+Images of the clothes are stored in S3 bucket. Images are uploaded and fetched from S3 bucket to use in the application.
+8. CloudFront
+As users will be accessing this application from all over the world, time complexity of the application increases if someone is trying to fetch the image from S3 bucket from that part of the country where S3 bucket is not hosted. So, we have used CloudFront to cache the images all over the world.
+
+## AKF Scale Cube
+
+### X-axis Scaling:
+- X-axis uses an approach of scaling an solution by running multiple identical copies of the application behind a load balancer.
+- It is implemented by cloning our API in multiple EC2 instances and attaching a load balancer to the instances.
