@@ -59,3 +59,19 @@ var CartSchema = new Schema({
     itempath:{type:String},
 });
 ```
+
+## Orders Schema
+```
+var OrderSchema = new Schema({  
+    itemid: { type: String, required: true
+    },  
+    itemname: { type: String, required: true  
+    },  
+    quantity: { type: String, required: true  
+    }, 
+    userid:{type:String, required: true  
+    },
+    itempath:{type:String},
+}); 
+```
+
